@@ -8,36 +8,32 @@ use Session;
 
 class Bienvenida extends Controller {
 
-    public function test() {
-        return View('pages.login');
-    }
-
     public function login(Request $request) {
         $email = $request->post('email');
         $password = $request->post('password');
-        
-        $response = json_decode($this->consumeApi(array('email' => $email, 'password'=> $password), 'autenticar-cliente'), true);
-        if($response['status']== 'success'){
+
+        $response = json_decode($this->consumeApi(array('email' => $email, 'password' => $password), 'autenticar-cliente'), true);
+        if ($response['status'] == 'success') {
             Session::put('token', $response['data']['token']);
             //echo $response['data']['token'];
-           return redirect("/catalogo");
+            return redirect("/catalogo");
         } else {
-            echo 'failed';
+            $mensaje_error = $response["message"];
+            return View('pages.login', compact('mensaje_error'));
         }
     }
-    
-    public function catalogo(){
+
+    public function catalogo() {
         //listar-instrumentos
         $response = json_decode($this->consumeApi(array('token' => Session::get('token')), 'listar-instrumentos'), true);
         $data = $response["data"];
         return View('pages.catalogo', compact('data'));
     }
-    
 
     public function consumeApi($data, $endpoint) {
         $curl = curl_init();
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('API_CI_RUTA').'/'.$endpoint,
+            CURLOPT_URL => env('API_CI_RUTA') . '/' . $endpoint,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -53,6 +49,35 @@ class Bienvenida extends Controller {
         $response = curl_exec($curl);
         curl_close($curl);
         return $response;
+    }
+
+    public function formRegistro() {
+        return View('pages.formregistro');
+    }
+
+    public function processRegistro(Request $request) {
+        $mensaje = null;
+        if ($request->post('password1') <> $request->post('password2')) {
+            $mensaje = 'Error al repetir contraseña';
+            return View('pages.formregistro', compact('mensaje'));
+        }
+
+        $data = array(
+            'email' => $request->post('email'),
+            'nombre' => $request->post('nombre'),
+            'apellido' => $request->post('apellido'),
+            'telefono' => $request->post('telefono'),
+            'password' => $request->post('password1')
+        );
+        $response = json_decode($this->consumeApi($data, 'agregar-cliente'), true);
+
+        if ($response["http_status_code"] != '200') {
+            $mensaje = $response["message"];
+            return View('pages.formregistro', compact('mensaje'));
+        } else {
+            $mensaje_registro = "Registro finalizado";
+            return View('pages.login', compact('mensaje_registro'));
+        }
     }
 
 }

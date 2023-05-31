@@ -23,9 +23,24 @@
         box-shadow: 1px 0 0 0 #1db954, 0 -1px 0 0 #1db954, 0 1px 0 0 #1db954;
     }
 
+
+
     .form-outline .form-control:focus~.form-label {
         color: #1db954;
-    }		
+    }
+
+    .form-outline .form-control:hover{
+        box-shadow:-1px 0px 0px 0px #1db954, 0px 1px 0px 0px #1db954, 0px -1px 0px 0px #1db954;
+    }
+
+
+
+
+    .form-outline .form-control:hover~.form-label {
+        color: #1db954;
+    }
+
+
 
     .form-outline .form-control.active~.form-notch .form-notch-middle, .form-outline .form-control:focus~.form-notch .form-notch-middle {
         border-top: 1px transparent;
@@ -33,6 +48,11 @@
 
     input, select, textarea{
         color: white !important;
+    }
+
+    .btn-outline-change:hover {
+        background-color: white !important;
+        color: black !important;
     }
 
 
@@ -54,8 +74,16 @@
 
                             <div class="mb-md-5 mt-md-4 pb-5">
 
-                                <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
-                                <p class="text-white-50 mb-5">Please enter your login and password!</p>
+                                <h2 class="fw-bold mb-2 text-uppercase">
+                                    <i class="fas fa-guitar" style=""></i>&nbsp;&nbsp;Music Pro
+                                </h2>
+                                <p class="text-white-50 mb-5"></p>
+                                @if(isset($mensaje_registro))
+                                <div class="justify-content-evenly rounded mb-2" style="background-color:#1db954; color:white;">
+                                    <p>{{$mensaje_registro}}</p>
+                                </div>
+                                @endif
+
                                 <form method="POST" action="../public/login">
                                     <div class="form-outline  mb-4">
                                         <input type="email" id="typeEmailX" class="form-control form-control-lg" name="email"/>
@@ -67,16 +95,26 @@
                                         <label class="form-label" style="color:white" for="typePasswordX">Password</label>
                                     </div>
                                     @csrf
-                                    <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#!">Forgot password?</a></p>
+                                    @if(isset($mensaje_error))
+                                    <div class="justify-content-evenly rounded mb-2" style="background-color:red; color:white;">
+                                        <p>{{$mensaje_error}}</p>
+                                    </div>
+                                    @endif
 
-                                    <button class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
+                                    <button class="btn btn-outline-light btn-outline-change btn-lg px-5" type="submit">Ingresar</button>
                                 </form>
+
                             </div>
 
                             <div>
+                                <p class="mb-0">No tiene cuenta? <a href="../public/registro" class="text-white fw-bold">Regístrese</a>
+
+                            </div>
+
+                            <!--div>
                                 <p class="mb-0">Don't have an account? <a href="#!" class="text-white-50 fw-bold">Sign Up</a>
                                 </p>
-                            </div>
+                            </div-->
 
                         </div>
                     </div>

@@ -21,3 +21,6 @@ Route::get('/', function () {
 Route::get('users', 'App\Http\Controllers\Bienvenida@test');
 Route::post('login', 'App\Http\Controllers\Bienvenida@login');
 Route::get('catalogo', 'App\Http\Controllers\Bienvenida@catalogo');
+//formRegistro
+Route::get('registro', 'App\Http\Controllers\Bienvenida@formRegistro');
+Route::post('registro-process', 'App\Http\Controllers\Bienvenida@processRegistro');
