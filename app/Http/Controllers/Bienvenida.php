@@ -8,7 +8,13 @@ use Session;
 
 class Bienvenida extends Controller {
 
+    public function redirNoLog() {
+        $mensaje_error = 'Sesión no iniciada';
+        return View('pages.login', compact('mensaje_error'));
+    }
+
     public function login(Request $request) {
+        Session::forget("compra");
         $email = $request->post('email');
         $password = $request->post('password');
 
@@ -25,6 +31,10 @@ class Bienvenida extends Controller {
 
     public function catalogo() {
         //listar-instrumentos
+        if (Session::get('token') == null) {
+            return $this->redirNoLog();
+        }
+        Session::put("compra");
         $response = json_decode($this->consumeApi(array('token' => Session::get('token')), 'listar-instrumentos'), true);
         $data = $response["data"];
         return View('pages.catalogo', compact('data'));
@@ -78,6 +88,38 @@ class Bienvenida extends Controller {
             $mensaje_registro = "Registro finalizado";
             return View('pages.login', compact('mensaje_registro'));
         }
+    }
+
+    public function agregarArticuloAVenta(Request $request) {
+        $carro = Session::get("compra");
+        $newcarro = [];
+        $cantidad = 0;
+        if ($carro == null) {
+            $newcarro[] = $request->post();
+            $cantidad = $cantidad + $request->post("cantidad");
+        } else {
+            $found = false;
+            foreach ($carro as $detalle) {
+                if ($detalle["id"] == $request->post("id")) {
+                    $newcarro[] = ["id" => $request->post("id"), "cantidad" => $request->post("cantidad")];
+                    $found = true;
+                    $cantidad = $cantidad + $request->post("cantidad");
+                } else {
+                    $newcarro[] = $detalle;
+                    $cantidad = $cantidad + $detalle["cantidad"];
+                }
+            }
+
+            if (!$found) {
+                $newcarro[] = ["id" => $request->post("id"), "cantidad" => $request->post("cantidad")];
+                $cantidad = $cantidad + $request->post("cantidad");
+            }
+        }
+        Session::forget("compra");
+        Session::put("compra", $newcarro);
+
+
+        echo $cantidad;
     }
 
 }

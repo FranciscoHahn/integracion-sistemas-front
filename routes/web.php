@@ -24,3 +24,4 @@ Route::get('catalogo', 'App\Http\Controllers\Bienvenida@catalogo');
 //formRegistro
 Route::get('registro', 'App\Http\Controllers\Bienvenida@formRegistro');
 Route::post('registro-process', 'App\Http\Controllers\Bienvenida@processRegistro');
+Route::post('articulo-carrito', 'App\Http\Controllers\Bienvenida@agregarArticuloAVenta');
