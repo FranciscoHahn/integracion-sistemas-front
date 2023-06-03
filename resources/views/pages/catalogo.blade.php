@@ -77,7 +77,7 @@
         <!-- Right elements -->
         <div class="d-flex align-items-center">
             <!-- Icon -->
-            <a class="link-secondary me-3 " href="#">
+            <a class="link-secondary me-3 " href="././resumen-compra">
                 <i class="fas fa-shopping-cart carrito-comprar" aria-hidden="true" style=""></i>
             </a>
 
@@ -130,10 +130,6 @@
                                 <i class="fa-solid fa-minus"></i>
                             </button>
                         </div>
-
-
-
-
                     </div>
 
                 </div>
@@ -143,8 +139,4 @@
         </div>
     </div>
 </section>
-<!-- Footer-->
-<footer class="py-5">
-    <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
-</footer>
 @endsection

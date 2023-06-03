@@ -25,3 +25,9 @@ Route::get('catalogo', 'App\Http\Controllers\Bienvenida@catalogo');
 Route::get('registro', 'App\Http\Controllers\Bienvenida@formRegistro');
 Route::post('registro-process', 'App\Http\Controllers\Bienvenida@processRegistro');
 Route::post('articulo-carrito', 'App\Http\Controllers\Bienvenida@agregarArticuloAVenta');
+Route::get('resumen-compra', 'App\Http\Controllers\Bienvenida@resumenCompra');
+
+
+Route::get('transbank-init', 'App\Http\Controllers\Transbank@init');
+Route::get('transbank-retorno', 'App\Http\Controllers\Transbank@returnFromTransbank');
+

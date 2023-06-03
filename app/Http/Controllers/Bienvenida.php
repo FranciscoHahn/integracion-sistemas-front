@@ -121,5 +121,30 @@ class Bienvenida extends Controller {
 
         echo $cantidad;
     }
+    
+    public function resumenCompra(){
+        $compra = Session::get('compra');
+        $catalogo = json_decode($this->consumeApi(array('token' => Session::get('token')), 'listar-instrumentos'));
+        $catalogo = $catalogo->data;
+        //echo json_encode($catalogo);
+        $resumen_compra = [];
+        
+        foreach($catalogo as $producto){
+            foreach($compra as $compraproducto){
+                if($producto->id == $compraproducto["id"]){
+                    $producto->cantidad = $compraproducto["cantidad"];
+                    $resumen_compra[] = $producto;
+                }
+            }
+        }
+        
+        
+        return view('pages.resumencompra', compact('resumen_compra'));
+    }
+    
+    
+    
+    
+    
 
 }
