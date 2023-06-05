@@ -20,6 +20,88 @@
             rel="stylesheet"
             />
         <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+        <style>
+            .topnav {
+                border-bottom: 3px solid #1db954;
+            }
+
+            .btn-outline-success:hover {
+                background-color: #1db954 !important;
+                color: white !important;
+            }
+
+            .btn-outline-success {
+                border-color: #1db954 !important;
+                color: #1db954 !important;
+            }
+
+            .seleccionado {
+                color: white !important; 
+                background-color: #121212 !important;
+                border: 2px solid #1db954 !important;
+                box-shadow: 5px 5px 10px 0px rgba(0,255,255,0.7) !important;
+
+            }
+
+            .solo-neon-icon {
+                color: white; 
+                text-shadow: 0 0 3px rgba(0,255,255,0.7);
+            }
+
+
+            .neon-active {
+                color: #fff;
+                animation: glow-cyan 1s ease-in-out infinite alternate;
+            }
+
+            .neon {
+                color: #fff;
+                animation: glow-green 1s ease-in-out infinite alternate;
+            }
+
+            @keyframes glow-green {
+                from {
+                    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #1db954, 0 0 20px #1db954, 0 0 25px #1db954, 0 0 30px #1db954, 0 0 35px #1db954;
+                }
+                to {
+                    text-shadow: 0 0 10px #fff, 0 0 5px #fff, 0 0 10px #1db954, 0 0 20px #1db954, 0 0 30px #1db954, 0 0 40px #1db954, 0 0 50px #1db954;
+                }
+            }
+
+            @keyframes glow-red {
+                from {
+                    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px red, 0 0 20px red, 0 0 25px red, 0 0 30px red, 0 0 35px red;
+                }
+                to {
+                    text-shadow: 0 0 10px #fff, 0 0 5px #fff, 0 0 10px red, 0 0 20px red, 0 0 30px red, 0 0 40px red, 0 0 50px red;
+                }
+            }
+
+            @keyframes glow-cyan {
+                from {
+                    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #00FFFF, 0 0 20px #00FFFF, 0 0 25px #00FFFF, 0 0 30px #00FFFF, 0 0 35px #00FFFF;
+                }
+                to {
+                    text-shadow: 0 0 10px #fff, 0 0 5px #fff, 0 0 10px #00FFFF, 0 0 20px #00FFFF, 0 0 30px #00FFFF, 0 0 40px #00FFFF, 0 0 50px #00FFFF;
+                }
+            }
+
+
+            .solo-neon-icon-red:hover {
+                color: #fff;
+                animation: glow-red 1s ease-in-out infinite alternate;
+            }
+
+
+            .solo-neon-icon-blue:hover {
+                color: #fff;
+                animation: glow-green 1s ease-in-out infinite alternate;
+            }
+
+
+
+        </style>
+
         <title>Music Pro</title>
     </head>
     <body style="background-color: #121212;">
@@ -123,7 +205,7 @@
 
 
             $('#link-compra').click(function (event) {
-                if(!$(".carrito-comprar").hasClass("neon")){
+                if (!$(".carrito-comprar").hasClass("neon")) {
                     event.preventDefault();
                 }
             });

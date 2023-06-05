@@ -131,7 +131,7 @@
 
         <!-- Right elements -->
         <div class="d-flex align-items-center">
-            <a class="link-secondary me-3" title="mis compras" href="#">
+            <a class="link-secondary me-3" title="mis compras" href="././mis-compras">
                 <i class="fa-solid fa-truck-clock"></i>
             </a>
             <!-- Icon -->

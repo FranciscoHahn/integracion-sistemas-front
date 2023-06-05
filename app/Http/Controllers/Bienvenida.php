@@ -14,11 +14,11 @@ class Bienvenida extends Controller {
     }
 
     public function login(Request $request) {
-        if(Session::get("token") != null){
+        if (Session::get("token") != null) {
             return redirect("/catalogo");
         }
-        
-        
+
+
         Session::forget("compra");
         $email = $request->post('email');
         $password = $request->post('password');
@@ -26,6 +26,7 @@ class Bienvenida extends Controller {
         $response = json_decode($this->consumeApi(array('email' => $email, 'password' => $password), 'autenticar-cliente'), true);
         if ($response['status'] == 'success') {
             Session::put('token', $response['data']['token']);
+            Session::put("data_cliente", $response["data"]["data_cliente"]);
             return redirect("/catalogo");
         } else {
             $mensaje_error = $response["message"];
@@ -168,6 +169,29 @@ class Bienvenida extends Controller {
             Session::put("datacompra", $data);
             return redirect('/transbank-init');
         }
+    }
+
+    public function misCompras() {
+        //echo json_encode(Session::all());
+        $data = array(
+            'token' => Session::get("token")
+        );
+        $response = json_decode($this->consumeApi($data, 'listar-ventas'));
+        $ventas_cliente = [];
+        $id_cliente = Session::get("data_cliente")["id_cliente"];
+        foreach ($response->data as $venta) {
+            if ($venta->cliente_id == $id_cliente) {             
+                $detalleventa = json_decode($this->consumeApi(array('token' => Session::get('token'), 'id_venta' => $venta->id), 'detalle-venta'));
+                if ($detalleventa->data != null) {
+                    $venta->detalle = $detalleventa->data->detalle_venta;
+                    $ventas_cliente[] = $venta;
+                    //echo json_encode($venta) . "<br/><br/>" . "<br/><br/>" . "<br/><br/>" . "<br/><br/>";
+                } 
+                
+            }
+        }
+
+        return view('pages.ventascliente', compact('ventas_cliente'));
     }
 
 }

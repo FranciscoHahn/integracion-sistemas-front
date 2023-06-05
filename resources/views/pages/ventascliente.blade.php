@@ -1,4 +1,5 @@
 
+
 @extends('layout.mainlayout')
 @section('content')
 <style>
@@ -96,7 +97,6 @@
             text-shadow: 0 0 10px #fff, 0 0 5px #fff, 0 0 10px #1db954, 0 0 20px #1db954, 0 0 30px #1db954, 0 0 40px #1db954, 0 0 50px #1db954;
         }
     }
-
     .solo-neon-icon-red:hover {
         /**esta wea es bright red**/
         color: #EE4B2B !important; 
@@ -149,13 +149,13 @@
             </a>
 
             <a class="link-secondary me-3" title="mis compras" href="././mis-compras">
-                <i class="fas fa-truck solo-neon-icon-blue" style="color: #white;"></i>
+                <i class="fas fa-truck neon-active" style="color: #white;"></i>
             </a>
 
 
             <!-- Icon -->
             <a class="link-secondary me-3" id="link-compra" href="././resumen-compra">
-                <i class="fas fa-shopping-cart carrito-comprar neon" aria-hidden="true" style=""></i>
+                <i class="fas fa-shopping-cart carrito-comprar" aria-hidden="true" style=""></i>
             </a>
             <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
             <a href="././logout" title="Salir">
@@ -177,70 +177,39 @@
 <header class="py-5 mt-5">
     <div class="container">
         <div class="text-white">
-            <h3 class="">Resumen de su compra</h3>
+            <h3 class="mt-5">Compras</h3>
             <div class='row'>
-                <div class="table-responsive col-6 seleccionado rounded">
-                    <table class="table text-white">
-                        <?php $total = 0; ?>
-                        @foreach ($resumen_compra as $resumen)
-                        <tr>
+                <div class="col-12">
+                    <table style='border-collapse: collapse;'>
+                        @foreach($ventas_cliente as $venta)
+                        <tr class="" style='border-bottom: 1pt solid green; border-left: 1pt solid green; border-top: 1pt solid green; border-right: 1pt solid green;'>
                             <td>
-                                {{$resumen->nombre}}&nbsp;({{$resumen->cantidad}})
-                                <br/>
-                                {{$resumen->nombre_categoria}}
-                                <br/>
-                                {{"$ ".number_format($resumen->precio * $resumen->cantidad,0, ',', '.')}}
-                                <br/>
-                                (precio unitario $&nbsp;{{number_format($resumen->precio, 0, ',', '.')}})
-                                <?php $total = $total + $resumen->precio * $resumen->cantidad; ?>
+                                <div class="mt-2">
+                                {{$venta->fecha}}<br/>
+                                Estado venta: {{$venta->estado_pago}}<br/>
+                                Estado entrega: {{$venta->estado_entrega}}<br/>
+                                Forma de retiro: {{$venta->forma_retiro}}<br/>
+                                @if($venta->forma_retiro == 'A domicilio')
+                                Dirección despacho {{$venta->direccion_despacho}}<br/>
+                                @endif
+                                </div>
                             </td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+
+                            @foreach($venta->detalle as $detalle)
+                            <td>
+                                <div class="mt-2">
+                                {{$detalle->nombre_producto}} ({{$detalle->cantidad}})<br/>
+                                {{$detalle->nombre_categoria}}<br/>
+                                {{$detalle->precio_unitario}}<br/>
+                                {{$detalle->subtotal}}<br/>
+                                </div>
+                            <td>
+                            @endforeach
                         </tr>
+
                         @endforeach
                     </table>
-
-                </div>
-                <div class="col-6 mr-5">
-                    <div class="mx-4 mb-4">
-
-                        {{"Total: $ ".number_format($total, 0, ',', '.')}}
-
-                    </div>
-
-                    <form method="POST" action="././comprar-process">
-                        <!-- Default radio -->
-                        <div class="form-check mx-4">
-                            <input class="form-check-input" type="radio" name="tipo_entrega" value="domicilio" id="flexRadioDefault1" checked/>
-                            <label class="form-check-label" for="flexRadioDefault1"> Entrega a domicilio </label>
-                        </div>
-
-                        <!-- Default checked radio -->
-                        <div class="form-check mx-4">
-                            <input class="form-check-input" type="radio" name="tipo_entrega" value="tienda" id="flexRadioDefault2" />
-                            <label class="form-check-label" for="flexRadioDefault2"> Retiro en tienda </label>
-                        </div>
-                        <br/><br/>
-                        <div class="form-outline mx-4">
-                            <input type="text" id="typeEmailX" class="form-control form-control-lg"  name="domicilio"/>
-                            <label class="form-label" style="color:white;" for="typeEmailX">Domicilio</label>
-                        </div>
-                        @if(isset($mensaje))
-                        <br/>
-                        <div class="rounded  mx-4 opacity-70" style="background-color:red">
-                            <p>{{$mensaje}}</p>
-                        </div>
-                        @endif
-
-                        <br/><br/><br/><br/>
-                        <div class="d-flex justify-content-center mx-4">
-                            <button type="submit" class="btn btn-outline-success btn-outline-change">Continuar con el pago</button>
-                        </div>
-                        @csrf
-                        <input type="hidden" name="total_compra" value="{{$total}}"/>
-                    </form>
-
-
-
-
                 </div>
             </div>
 

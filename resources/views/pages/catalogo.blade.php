@@ -1,47 +1,7 @@
 @extends('layout.mainlayout')
 @section('content')
 <style>
-    .topnav {
-        border-bottom: 3px solid #1db954;
-    }
-
-    .btn-outline-success:hover {
-        background-color: #1db954 !important;
-        color: white !important;
-    }
-
-    .btn-outline-success {
-        border-color: #1db954 !important;
-        color: #1db954 !important;
-    }
-
-    .seleccionado {
-        color: white !important; 
-        background-color: #121212 !important;
-        border: 2px solid #1db954 !important;
-        box-shadow: 5px 5px 10px 0px rgba(0,255,255,0.7) !important;
-
-    }
-
-    .solo-neon-icon {
-        color: white; 
-        text-shadow: 0 0 3px rgba(0,255,255,0.7);
-    }
-
-
-    .neon {
-        color: #fff;
-        animation: glow 1s ease-in-out infinite alternate;
-    }
-
-    @keyframes glow {
-        from {
-            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #1db954, 0 0 20px #1db954, 0 0 25px #1db954, 0 0 30px #1db954, 0 0 35px #1db954;
-        }
-        to {
-            text-shadow: 0 0 10px #fff, 0 0 5px #fff, 0 0 10px #1db954, 0 0 20px #1db954, 0 0 30px #1db954, 0 0 40px #1db954, 0 0 50px #1db954;
-        }
-    }
+ 
 
 </style>
 
@@ -76,14 +36,26 @@
 
         <!-- Right elements -->
         <div class="d-flex align-items-center">
-            <a class="link-secondary me-3" title="mis compras" href="#">
-                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M48 0C21.5 0 0 21.5 0 48V368c0 26.5 21.5 48 48 48H64c0 53 43 96 96 96s96-43 96-96H384c0 53 43 96 96 96s96-43 96-96h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V288 256 237.3c0-17-6.7-33.3-18.7-45.3L512 114.7c-12-12-28.3-18.7-45.3-18.7H416V48c0-26.5-21.5-48-48-48H48zM416 160h50.7L544 237.3V256H416V160zM112 416a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm368-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/></svg>
+            <a class="link-secondary me-3" title="catálogo" href="././catalogo">
+                <i class="fa-sharp fa-solid fa-shop neon-active"></i>
             </a>
+            <a class="link-secondary me-3" title="mis compras" href="././mis-compras">
+                <i class="fas fa-truck " style="color: #white;"></i>
+            </a>
+
 
             <!-- Icon -->
             <a class="link-secondary me-3" id="link-compra" href="././resumen-compra">
                 <i class="fas fa-shopping-cart carrito-comprar" aria-hidden="true" style=""></i>
             </a>
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <a href="././logout" title="Salir">
+                <i class="fa fa-sign-out solo-neon-icon-red" aria-hidden="true" style="color:white">
+
+                </i>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+            </a>
+
 
 
         </div>
