@@ -12,10 +12,13 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+/**
 Route::get('/', function () {
     return view('pages.login');
 });
+*/
+
+Route::get('/', 'App\Http\Controllers\Bienvenida@login');
 
 
 Route::get('users', 'App\Http\Controllers\Bienvenida@test');
@@ -26,6 +29,7 @@ Route::get('registro', 'App\Http\Controllers\Bienvenida@formRegistro');
 Route::post('registro-process', 'App\Http\Controllers\Bienvenida@processRegistro');
 Route::post('articulo-carrito', 'App\Http\Controllers\Bienvenida@agregarArticuloAVenta');
 Route::get('resumen-compra', 'App\Http\Controllers\Bienvenida@resumenCompra');
+Route::post('comprar-process', 'App\Http\Controllers\Bienvenida@comprarProcess');
 
 
 Route::get('transbank-init', 'App\Http\Controllers\Transbank@init');

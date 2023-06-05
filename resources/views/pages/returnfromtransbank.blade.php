@@ -134,7 +134,6 @@
             <a class="link-secondary me-3" title="mis compras" href="#">
                 <i class="fa-solid fa-truck-clock"></i>
             </a>
-
             <!-- Icon -->
             <a class="link-secondary me-3" href="#">
                 <i class="fas fa-shopping-cart carrito-comprar" aria-hidden="true" style=""></i>
@@ -149,79 +148,10 @@
 <!-- Navbar -->
 <!-- Header-->
 <header class="py-5 mt-5">
-    <div class="container">
-        <div class="text-white">
-            <h3 class="">Resumen de su compra</h3>
-            <div class='row'>
-                <div class="table-responsive col-6 seleccionado rounded">
-                    <table class="table text-white">
-                        <?php $total = 0; ?>
-                        @foreach ($resumen_compra as $resumen)
-                        <tr>
-                            <td>
-                                {{$resumen->nombre}}&nbsp;({{$resumen->cantidad}})
-                                <br/>
-                                {{$resumen->nombre_categoria}}
-                                <br/>
-                                {{"$ ".number_format($resumen->precio * $resumen->cantidad,0, ',', '.')}}
-                                <br/>
-                                (precio unitario $&nbsp;{{number_format($resumen->precio, 0, ',', '.')}})
-                                <?php $total = $total + $resumen->precio * $resumen->cantidad; ?>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </table>
-
-                </div>
-                <div class="col-6 mr-5">
-                    <div class="mx-4 mb-4">
-
-                        {{"Total: $ ".number_format($total, 0, ',', '.')}}
-
-                    </div>
-
-                    <form method="POST" action="././comprar-process">
-                        <!-- Default radio -->
-                        <div class="form-check mx-4">
-                            <input class="form-check-input" type="radio" name="tipo_entrega" value="domicilio" id="flexRadioDefault1" checked/>
-                            <label class="form-check-label" for="flexRadioDefault1"> Entrega a domicilio </label>
-                        </div>
-
-                        <!-- Default checked radio -->
-                        <div class="form-check mx-4">
-                            <input class="form-check-input" type="radio" name="tipo_entrega" value="tienda" id="flexRadioDefault2" />
-                            <label class="form-check-label" for="flexRadioDefault2"> Retiro en tienda </label>
-                        </div>
-                        <br/><br/>
-                        <div class="form-outline mx-4">
-                            <input type="text" id="typeEmailX" class="form-control form-control-lg"  name="domicilio"/>
-                            <label class="form-label" style="color:white;" for="typeEmailX">Domicilio</label>
-                        </div>
-                        @if(isset($mensaje))
-                        <br/>
-                        <div class="rounded  mx-4 opacity-70" style="background-color:red">
-                            <p>{{$mensaje}}</p>
-                        </div>
-                        @endif
-
-                        <br/><br/><br/><br/>
-                        <div class="d-flex justify-content-center mx-4">
-                            <button type="submit" class="btn btn-outline-success btn-outline-change">Continuar con el pago</button>
-                        </div>
-                        @csrf
-                        <input type="hidden" name="total_compra" value="{{$total}}"/>
-                    </form>
-
-
-
-
-                </div>
-            </div>
-
-
-
-
-
+    <div class="container text-white text-center">
+        Compra finalizada<br/><br/>
+        <div class="d-flex justify-content-center mx-4">
+            <a type="submit" class="btn btn-outline-success btn-outline-change" href="././catalogo">Volver al catálogo</a>
         </div>
     </div>
 </header>

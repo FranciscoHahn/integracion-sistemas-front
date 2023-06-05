@@ -14,6 +14,11 @@ class Bienvenida extends Controller {
     }
 
     public function login(Request $request) {
+        if(Session::get("token") != null){
+            return redirect("/catalogo");
+        }
+        
+        
         Session::forget("compra");
         $email = $request->post('email');
         $password = $request->post('password');
@@ -21,7 +26,6 @@ class Bienvenida extends Controller {
         $response = json_decode($this->consumeApi(array('email' => $email, 'password' => $password), 'autenticar-cliente'), true);
         if ($response['status'] == 'success') {
             Session::put('token', $response['data']['token']);
-            //echo $response['data']['token'];
             return redirect("/catalogo");
         } else {
             $mensaje_error = $response["message"];
@@ -121,30 +125,49 @@ class Bienvenida extends Controller {
 
         echo $cantidad;
     }
-    
-    public function resumenCompra(){
+
+    public function resumenCompra($mensaje = null) {
         $compra = Session::get('compra');
         $catalogo = json_decode($this->consumeApi(array('token' => Session::get('token')), 'listar-instrumentos'));
         $catalogo = $catalogo->data;
         //echo json_encode($catalogo);
         $resumen_compra = [];
-        
-        foreach($catalogo as $producto){
-            foreach($compra as $compraproducto){
-                if($producto->id == $compraproducto["id"]){
+
+        foreach ($catalogo as $producto) {
+            foreach ($compra as $compraproducto) {
+                if ($producto->id == $compraproducto["id"]) {
                     $producto->cantidad = $compraproducto["cantidad"];
                     $resumen_compra[] = $producto;
                 }
             }
         }
-        
-        
-        return view('pages.resumencompra', compact('resumen_compra'));
+        if ($mensaje == null) {
+            return view('pages.resumencompra', compact('resumen_compra'));
+        } else {
+            return view('pages.resumencompra', compact('resumen_compra', 'mensaje'));
+        }
     }
-    
-    
-    
-    
-    
+
+    public function comprarProcess(Request $request) {
+
+
+        if ($request->post('tipo_entrega') == 'domicilio' && ($request->post('domicilio') == "" || $request->post('domicilio') == null)) {
+            return $this->resumenCompra("Indique su domicilio");
+        } else {
+            $retiro = null;
+            if ($request->post('tipo_entrega') == 'domicilio') {
+                $retiro = "A domicilio";
+            } else {
+                $retiro = "En tienda";
+            }
+            $data = array(
+                "tipo_entrega" => $retiro,
+                "domicilio" => $request->post('domicilio'),
+                "total" => $request->post("total_compra")
+            );
+            Session::put("datacompra", $data);
+            return redirect('/transbank-init');
+        }
+    }
 
 }

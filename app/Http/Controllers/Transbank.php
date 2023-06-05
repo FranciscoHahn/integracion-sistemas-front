@@ -10,22 +10,30 @@ class Transbank extends Controller {
 
     public function init() {
 
+        $data_compra = Session::get("datacompra");
+        $compraid = uniqid();
+        //echo json_encode($data_compra);
+
+        $crear_venta = json_decode($this->consumeApi(array('token' => Session::get("token"), 'forma_retiro' => $data_compra["tipo_entrega"], 'direccion_despacho' => $data_compra["domicilio"]), 'crear-venta'), true);
+
+        if ($crear_venta["http_status_code"] <> 200) {
+            return $this->resumenCompra($crear_venta["message"]);
+        }
+
+        $id_venta = $crear_venta["data"]["insert_id"];
+        Session::put("id_venta", $id_venta);
+
         $data = [
-            "buy_order" => "ordenCompra12345678",
-            "session_id" => "sesion1234557545",
-            "amount" => 10000,
+            "buy_order" => $id_venta . "oc" . $compraid,
+            "session_id" => $id_venta . "sid" . $compraid,
+            "amount" => $data_compra["total"],
             "return_url" => "http://192.168.116.135/front-inte-plataformas/public/transbank-retorno"
         ];
-
-        echo json_encode($data);
 
         $respuesta = $this->respuestaTransbank(json_encode($data), "POST", "/rswebpaytransaction/api/webpay/v1.2/transactions");
         Session::put("token-tb", $respuesta->token);
 
         return view('pages.totransbank', compact('respuesta'));
-
-
-        //echo json_encode($respuesta);
     }
 
     function respuestaTransbank($data, $method, $endpoint) {
@@ -59,6 +67,8 @@ class Transbank extends Controller {
     }
 
     public function returnFromTransbank(Request $request) {
+
+
         $token_respuesta = $request->get('token_ws');
         $token = Session::get("token-tb");
         $method = 'PUT';
@@ -66,9 +76,82 @@ class Transbank extends Controller {
         $endpoint = '/rswebpaytransaction/api/webpay/v1.2/transactions/' . $token_respuesta;
 
         $response = $this->respuestaTransbank('', $method, $endpoint);
+        $data = array();
+        if ($response->status == "AUTHORIZED") {
+            $data_compra = Session::get("compra");
+            foreach ($data_compra as $compra) {
+                $responsea = $this->consumeApi(array("token" => Session::get("token"), "id_instrumento" => $compra["id"], "cantidad" => $compra["cantidad"], "id_venta" => Session::get("id_venta")), 'agregar-producto-venta');
+                //echo json_encode($responsea)."<br/><br/>";
+            }
 
-        echo dd($response);
-        echo "hello";
+            $data["token"] = Session::get("token");
+            $data["id_venta"] = Session::get("id_venta");
+            $data["forma_pago"] = $response->payment_type_code == "VD" ? "Debito" : "Credito";
+            $data["estado_pago"] = "Pagada";
+            $data["estado_entrega"] = "En preparación";
+            $response = $this->consumeApi($data, 'modificar-estados-venta');
+        }
+        
+        return view('pages.returnfromtransbank');
+        
+    }
+
+    public function consumeApi($data, $endpoint) {
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env('API_CI_RUTA') . '/' . $endpoint,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => http_build_query($data),
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/x-www-form-urlencoded'
+            ),
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        return $response;
+    }
+
+    public function resumenCompra($mensaje = null) {
+        $compra = Session::get('compra');
+        $catalogo = json_decode($this->consumeApi(array('token' => Session::get('token')), 'listar-instrumentos'));
+        $catalogo = $catalogo->data;
+        //echo json_encode($catalogo);
+        $resumen_compra = [];
+
+        foreach ($catalogo as $producto) {
+            foreach ($compra as $compraproducto) {
+                if ($producto->id == $compraproducto["id"]) {
+                    $producto->cantidad = $compraproducto["cantidad"];
+                    $resumen_compra[] = $producto;
+                }
+            }
+        }
+        if ($mensaje == null) {
+            return view('pages.resumencompra', compact('resumen_compra'));
+        } else {
+            return view('pages.resumencompra', compact('resumen_compra', 'mensaje'));
+        }
+    }
+
+    public function catalogo($mensaje = null) {
+        //listar-instrumentos
+        if (Session::get('token') == null) {
+            return $this->redirNoLog();
+        }
+        Session::put("compra");
+        $response = json_decode($this->consumeApi(array('token' => Session::get('token')), 'listar-instrumentos'), true);
+        $data = $response["data"];
+        if ($mensaje) {
+            return View('pages.catalogo', compact('data', 'mensaje'));
+        } else {
+            return View('pages.catalogo', compact('data'));
+        }
     }
 
 }

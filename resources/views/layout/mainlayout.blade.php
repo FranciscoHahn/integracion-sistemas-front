@@ -19,6 +19,7 @@
             href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.css"
             rel="stylesheet"
             />
+        <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
         <title>Music Pro</title>
     </head>
     <body style="background-color: #121212;">
@@ -32,7 +33,7 @@
             type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.js"
         ></script>
-        <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+
         <script>
 
             $('.addalcarrito').on('click', function () {
@@ -119,8 +120,15 @@
 
 
             });
-            
-            
+
+
+            $('#link-compra').click(function (event) {
+                if(!$(".carrito-comprar").hasClass("neon")){
+                    event.preventDefault();
+                }
+            });
+
+
         </script>
 
 
