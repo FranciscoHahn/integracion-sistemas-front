@@ -74,7 +74,6 @@
 
     .btn-outline-change:hover {
         color: #fff;
-        animation: glow 1s ease-in-out infinite alternate;
     }
 
     .solo-neon-icon {

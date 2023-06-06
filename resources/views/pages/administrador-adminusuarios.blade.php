@@ -5,6 +5,10 @@
         padding: 15px;
     }
 
+    .border-primary {
+        border-color: #4dfed1 !important;
+    }
+
 </style>
 
 
@@ -70,76 +74,76 @@
 <!-- Header-->
 <header class="py-5">
     <div class="container px-4 px-lg-5 my-5">
-
-
-
-
-
         <div class="text-white d-flex justify-content-center">
 
 
             <div class="">
                 <div class="d-block p-2"> 
-                    <h3>Opciones de {{Session::get("perfil")}}</h3>
-                    <h6>Descripción de íconos de la barra superior</h6>
+                    <h3>Administración de usuarios internos</h3>
+                     <a type="button" class="btn btn-outline-success" href="././crear-usuario">Crear nuevo usuario</a>
                 </div>
-                <table class="p-2" style="font-size: 25px;">
-                    <tr>
-                        <td>
-                            <i class="fa-sharp fa-solid fa-users solo-neon-icon-cyan"></i>
-                        </td>
-                        <td>Administración de usuario</td>
-                        <td>Mantención de datos de usuario</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <i class="fas fa-truck solo-neon-icon-cyan" style="color: #white;"></i>
+                <table class="table table-bordered border-primary text-white">
+                    <thead>
+                    <th>
+                        id
+                    </th>
+                    <th>
+                        Nombres
+                    </th>
+                    <th>
+                        Apellidos
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                        Dirección
+                    </th>
+                    <th>
+                        Perfil
+                    </th>
+                    <th>
+                        Opciones
+                    </th>
 
-                        </td>
-                        <td>Entregas</td>
-                        <td>Control de entregas</td>
+                    </thead>
+                    <tbody>
+                        @foreach($usuarios as $usuario)
+                        <tr>
+                            <td>
+                                {{$usuario->id}}
+                            </td>
+                            <td>
+                                {{$usuario->nombres}}
+                            </td>
+                            <td>
+                                {{$usuario->apellidos}}
+                            </td>
+                            <td>
+                                {{$usuario->email}}
+                            </td>
+                            <td>
+                                {{$usuario->direccion}}
+                            </td>
+                            <td>
+                                {{$usuario->perfil_nombre}}
+                            </td>
+                            <td>
+                                <div class="btn-group-horizontal" role="group" aria-label="Vertical button group">
+                                    <a type="button" class="btn btn-outline-success" href="././modificarusuario">Modificar</a>
+                                    @if($usuario->activo)
+                                    <a type="button" class="btn btn-outline-success" href="././activar">Desactivar</a>
+                                    @else
+                                    <a type="button" class="btn btn-outline-success" href="././activar">Activar</a>
+                                    @endif
+                                </div>
+                            </td>
 
-
-
-                    </tr>
-                    <tr>  
-                        <td>
-                            <i class="fas fa-guitar solo-neon-icon-cyan" style="color: #white;"></i>
-
-                        </td>
-                        <td>Mantenedor de productos</td>
-                        <td>Mantención de datos de productos disponibles en catálogo</td>
-
-                    </tr>
-                    <tr>
-                        <td>
-                            <i class="fas fa-user solo-neon-icon-cyan" style="color: #white;"></i>
-
-                        </td>
-                        <td>Administración de clientes</td>
-                        <td>Administración de datos de clientes</td>
-
-
-
-                    </tr>
-                    <tr>
-                        <td>
-                            <i class="fas fa-list solo-neon-icon-cyan" style="color: #white;"></i>
-
-                        </td>
-                        <td>Reportes</td>
-                        <td>Acceso a reportes del sistema</td>
-
-                    </tr>
-                    <tr>
-                        <td>
-                            <i class="fa fa-sign-out solo-neon-icon-red" aria-hidden="true" style="color:white">
-                            </i>
-
-                        </td>
-                        <td>Salir del sistema</td>
-                    <tr>
+                        </tr>
+                        @endforeach 
+                    </tbody>
                 </table>
+
             </div>
 
         </div>

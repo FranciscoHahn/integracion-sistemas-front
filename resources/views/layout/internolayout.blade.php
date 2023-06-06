@@ -25,6 +25,12 @@
                 border-bottom: 3px solid #1db954;
             }
 
+
+
+            .topnav-interno {
+                border-bottom: 3px solid #91ffff;
+            }
+
             .btn-outline-success:hover {
                 background-color: #1db954 !important;
                 color: white !important;
@@ -112,6 +118,11 @@
             .solo-neon-icon-blue:hover {
                 color: #fff;
                 animation: glow-green 1s ease-in-out infinite alternate;
+            }
+
+            .solo-neon-icon-cyan:hover {
+                color: #fff;
+                animation: glow-cyan 1s ease-in-out infinite alternate;
             }
 
 

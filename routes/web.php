@@ -61,4 +61,7 @@ Route::get('logoutinterno', function(){
 });
 
 Route::get('interno-ini', 'App\Http\Controllers\Interno@welcomeinterno');
+Route::get('admin-users', 'App\Http\Controllers\Interno@adminUsuarios');
+Route::get('admin-instrumentos', 'App\Http\Controllers\Interno@adminProductos');
+Route::get('admin-clientes', 'App\Http\Controllers\Interno@adminClientes');
 

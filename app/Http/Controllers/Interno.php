@@ -9,8 +9,8 @@ use Session;
 class Interno extends Controller {
 
     public function login(Request $request) {
-        
-        if(Session::get('token') != null && Session::get('perfil') <> 'Cliente') {
+
+        if (Session::get('token') != null && Session::get('perfil') <> 'Cliente') {
             return redirect('interno-ini');
         }
 
@@ -33,6 +33,24 @@ class Interno extends Controller {
 
     public function welcomeinterno() {
         return view('pages.welcomeinterno');
+    }
+
+    public function adminUsuarios() {
+        $response = json_decode($this->consumeApi(array('token' => Session::get('token')), 'listar-usuarios'));
+        $usuarios = $response->data->usuarios;
+        return view('pages.administrador-adminusuarios', compact('usuarios'));
+    }
+
+    public function adminProductos() {
+        $response = json_decode($this->consumeApi(array('token' => Session::get('token')), 'listar-instrumentos'));
+        $instrumentos = $response->data;
+        return view('pages.administrador-adminproductos', compact('instrumentos'));
+    }
+
+    public function adminClientes() {
+        $response = json_decode($this->consumeApi(array('token' => Session::get('token')), 'obtener-clientes'));
+        $clientes = $response->data;
+        return view('pages.administrador-adminclientes', compact('clientes'));
     }
 
     public function consumeApi($data, $endpoint) {

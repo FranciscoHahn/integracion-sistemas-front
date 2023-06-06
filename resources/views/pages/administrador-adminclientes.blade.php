@@ -5,6 +5,10 @@
         padding: 15px;
     }
 
+    .border-primary {
+        border-color: #4dfed1 !important;
+    }
+
 </style>
 
 
@@ -39,7 +43,7 @@
         <!-- Right elements -->
         <div class="d-flex align-items-center">
             <a class="link-secondary me-3" title="Administración de usuarios" href="././admin-users">
-                <i class="fa-sharp fa-solid fa-users neon-active" style="color: #white;"></i>
+                <i class="fa-sharp fa-solid fa-users" style="color: #white;"></i>
             </a>
             <a class="link-secondary me-3" title="Entregas" href="#">
                 <i class="fas fa-truck" style="color: #white;"></i>
@@ -48,7 +52,7 @@
                 <i class="fas fa-guitar" style="color: #white;"></i>
             </a>
             <a class="link-secondary me-3" title="Clientes" href="././admin-clientes">
-                <i class="fas fa-user" style="color: #white;"></i>
+                <i class="fas fa-user neon-active" style="color: #white;"></i>
             </a>
             <a class="link-secondary me-3" title="Reportes" href="#">
                 <i class="fas fa-list" style="color: #white;"></i>
@@ -70,76 +74,67 @@
 <!-- Header-->
 <header class="py-5">
     <div class="container px-4 px-lg-5 my-5">
-
-
-
-
-
         <div class="text-white d-flex justify-content-center">
-
-
             <div class="">
                 <div class="d-block p-2"> 
-                    <h3>Opciones de {{Session::get("perfil")}}</h3>
-                    <h6>Descripción de íconos de la barra superior</h6>
+                    <h3>Administración de clientes</h3>
                 </div>
-                <table class="p-2" style="font-size: 25px;">
-                    <tr>
-                        <td>
-                            <i class="fa-sharp fa-solid fa-users solo-neon-icon-cyan"></i>
-                        </td>
-                        <td>Administración de usuario</td>
-                        <td>Mantención de datos de usuario</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <i class="fas fa-truck solo-neon-icon-cyan" style="color: #white;"></i>
+                <table class="table table-bordered border-primary text-white">
+                    <thead>
+                    <th>
+                        id
+                    </th>
+                    <th>
+                        Nombres
+                    </th>
+                    <th>
+                        Apellidos
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                        Teléfono
+                    </th>
+                    <th>
+                        Opciones
+                    </th>
 
-                        </td>
-                        <td>Entregas</td>
-                        <td>Control de entregas</td>
+                    </thead>
+                    <tbody>
+                        @foreach($clientes as $usuario)
+                        <tr>
+                            <td>
+                                {{$usuario->id}}
+                            </td>
+                            <td>
+                                {{$usuario->nombre}}
+                            </td>
+                            <td>
+                                {{$usuario->apellido}}
+                            </td>
+                            <td>
+                                {{$usuario->email}}
+                            </td>
+                            <td>
+                                {{$usuario->telefono}}
+
+                            </td>
+                            <td>
+                                @if($usuario->activo)
+                                <a type="button" class="btn btn-outline-success" href="././desactivar-cliente?id={{$usuario->id}}">Desactivar</a>
+                                @else
+                                <a type="button" class="btn btn-outline-success" href="././activar-cliente?id={{$usuario->id}}">Activar</a>
+                                @endif
 
 
+                            </td>
 
-                    </tr>
-                    <tr>  
-                        <td>
-                            <i class="fas fa-guitar solo-neon-icon-cyan" style="color: #white;"></i>
-
-                        </td>
-                        <td>Mantenedor de productos</td>
-                        <td>Mantención de datos de productos disponibles en catálogo</td>
-
-                    </tr>
-                    <tr>
-                        <td>
-                            <i class="fas fa-user solo-neon-icon-cyan" style="color: #white;"></i>
-
-                        </td>
-                        <td>Administración de clientes</td>
-                        <td>Administración de datos de clientes</td>
-
-
-
-                    </tr>
-                    <tr>
-                        <td>
-                            <i class="fas fa-list solo-neon-icon-cyan" style="color: #white;"></i>
-
-                        </td>
-                        <td>Reportes</td>
-                        <td>Acceso a reportes del sistema</td>
-
-                    </tr>
-                    <tr>
-                        <td>
-                            <i class="fa fa-sign-out solo-neon-icon-red" aria-hidden="true" style="color:white">
-                            </i>
-
-                        </td>
-                        <td>Salir del sistema</td>
-                    <tr>
+                        </tr>
+                        @endforeach 
+                    </tbody>
                 </table>
+
             </div>
 
         </div>

@@ -12,8 +12,6 @@ class Transbank extends Controller {
 
         $data_compra = Session::get("datacompra");
         $compraid = uniqid();
-        //echo json_encode($data_compra);
-
         $crear_venta = json_decode($this->consumeApi(array('token' => Session::get("token"), 'forma_retiro' => $data_compra["tipo_entrega"], 'direccion_despacho' => $data_compra["domicilio"]), 'crear-venta'), true);
 
         if ($crear_venta["http_status_code"] <> 200) {
@@ -66,8 +64,6 @@ class Transbank extends Controller {
     }
 
     public function returnFromTransbank(Request $request) {
-
-
         $token_respuesta = $request->get('token_ws');
         $token = Session::get("token-tb");
         $method = 'PUT';
@@ -76,15 +72,13 @@ class Transbank extends Controller {
 
         $response = $this->respuestaTransbank('', $method, $endpoint);
         //dd($response);
-        
+        //dd($response);
         $data = array();
         if ($response->status == "AUTHORIZED") {
             $data_compra = Session::get("compra");
             foreach ($data_compra as $compra) {
                 $responsea = $this->consumeApi(array("token" => Session::get("token"), "id_instrumento" => $compra["id"], "cantidad" => $compra["cantidad"], "id_venta" => Session::get("id_venta")), 'agregar-producto-venta');
-                //echo json_encode($responsea)."<br/><br/>";
             }
-
             $data["token"] = Session::get("token");
             $data["id_venta"] = Session::get("id_venta");
             $data["forma_pago"] = $response->payment_type_code == "VD" ? "Debito" : "Credito";
