@@ -27,6 +27,7 @@ class Bienvenida extends Controller {
         if ($response['status'] == 'success') {
             Session::put('token', $response['data']['token']);
             Session::put("data_cliente", $response["data"]["data_cliente"]);
+            Session::put("perfil", $response["data"]["data_cliente"]["perfil_nombre"]);
             return redirect("/catalogo");
         } else {
             $mensaje_error = $response["message"];

@@ -47,3 +47,18 @@ Route::get('logout', function(){
     return view('pages.login', compact('mensaje_registro'));
 });
 
+Route::get('interno', function(){
+    return view('pages.logininterno');
+});
+
+Route::post('interno-login', 'App\Http\Controllers\Interno@login');
+//logoutinterno
+Route::get('logoutinterno', function(){
+    Session::flush();
+    Session::regenerate();
+    $mensaje_registro = "Sesión finalizada";
+    return view('pages.logininterno', compact('mensaje_registro'));
+});
+
+Route::get('interno-ini', 'App\Http\Controllers\Interno@welcomeinterno');
+

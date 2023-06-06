@@ -19,7 +19,6 @@ class Transbank extends Controller {
         if ($crear_venta["http_status_code"] <> 200) {
             return $this->resumenCompra($crear_venta["message"]);
         }
-
         $id_venta = $crear_venta["data"]["insert_id"];
         Session::put("id_venta", $id_venta);
 
@@ -27,7 +26,7 @@ class Transbank extends Controller {
             "buy_order" => $id_venta . "oc" . $compraid,
             "session_id" => $id_venta . "sid" . $compraid,
             "amount" => $data_compra["total"],
-            "return_url" => "http://192.168.116.135/front-inte-plataformas/public/transbank-retorno"
+            "return_url" => env('RETURN_FROM_TRANSBANK')
         ];
 
         $respuesta = $this->respuestaTransbank(json_encode($data), "POST", "/rswebpaytransaction/api/webpay/v1.2/transactions");
@@ -76,6 +75,8 @@ class Transbank extends Controller {
         $endpoint = '/rswebpaytransaction/api/webpay/v1.2/transactions/' . $token_respuesta;
 
         $response = $this->respuestaTransbank('', $method, $endpoint);
+        //dd($response);
+        
         $data = array();
         if ($response->status == "AUTHORIZED") {
             $data_compra = Session::get("compra");

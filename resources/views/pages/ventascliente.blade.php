@@ -201,8 +201,8 @@
                                 <div class="mt-2">
                                 {{$detalle->nombre_producto}} ({{$detalle->cantidad}})<br/>
                                 {{$detalle->nombre_categoria}}<br/>
-                                {{$detalle->precio_unitario}}<br/>
-                                {{$detalle->subtotal}}<br/>
+                                $&nbsp;{{number_format($detalle->precio_unitario, 0,',', '.')}}<br/>
+                                $&nbsp;{{number_format($detalle->subtotal, 0,',', '.')}}<br/>
                                 </div>
                             <td>
                             @endforeach
