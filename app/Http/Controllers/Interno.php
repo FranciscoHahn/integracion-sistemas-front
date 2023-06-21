@@ -52,6 +52,10 @@ class Interno extends Controller {
         $clientes = $response->data;
         return view('pages.administrador-adminclientes', compact('clientes'));
     }
+    
+    public function crearusuario(Request $request){
+        dd($request->post());
+    }
 
     public function consumeApi($data, $endpoint) {
         $curl = curl_init();

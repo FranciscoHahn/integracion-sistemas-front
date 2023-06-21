@@ -80,7 +80,7 @@
             <div class="">
                 <div class="d-block p-2"> 
                     <h3>Administración de usuarios internos</h3>
-                     <a type="button" class="btn btn-outline-success" href="././crear-usuario">Crear nuevo usuario</a>
+                     <a type="button" class="btn btn-outline-success" href="{{route('registrarusuario')}}">Crear nuevo usuario</a>
                 </div>
                 <table class="table table-bordered border-primary text-white">
                     <thead>
