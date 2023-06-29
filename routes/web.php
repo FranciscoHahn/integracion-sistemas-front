@@ -25,12 +25,12 @@ Route::get('/', function() {
     }
 });
 
-
+Route::get('anonlogin', 'App\Http\Controllers\Bienvenida@anonlogin')->name('anonlogin');
 Route::get('users', 'App\Http\Controllers\Bienvenida@test');
-Route::post('login', 'App\Http\Controllers\Bienvenida@login');
+Route::post('login', 'App\Http\Controllers\Bienvenida@login')->name('logincliente');
 Route::get('catalogo', 'App\Http\Controllers\Bienvenida@catalogo');
 //formRegistro
-Route::get('registro', 'App\Http\Controllers\Bienvenida@formRegistro');
+Route::get('registro', 'App\Http\Controllers\Bienvenida@formRegistro')->name('registrocliente');
 Route::post('registro-process', 'App\Http\Controllers\Bienvenida@processRegistro');
 Route::post('articulo-carrito', 'App\Http\Controllers\Bienvenida@agregarArticuloAVenta');
 Route::get('resumen-compra', 'App\Http\Controllers\Bienvenida@resumenCompra');
@@ -82,6 +82,7 @@ Route::post('modificandoproducto', 'App\Http\Controllers\Productos@modificandopr
 Route::get('entregas', 'App\Http\Controllers\Entregas@entregas')->name('entregas');
 Route::get('detalleventas/{id}', 'App\Http\Controllers\Entregas@detalleventas')->name('detalleventas');
 Route::post('cambiarestadoentrega', 'App\Http\Controllers\Entregas@cambiarestadoentrega')->name('cambiarestadoentrega'); 
+Route::get('printvoucher/{id}', 'App\Http\Controllers\Transbank@printvoucher')->name('printvoucher');
 
 
 

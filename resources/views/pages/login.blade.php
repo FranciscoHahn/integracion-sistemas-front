@@ -84,7 +84,7 @@
                                 </div>
                                 @endif
 
-                                <form method="POST" action="../public/login">
+                                <form method="POST" action="{{route('logincliente')}}">
                                     <div class="form-outline  mb-4">
                                         <input type="email" id="typeEmailX" class="form-control form-control-lg" name="email"/>
                                         <label class="form-label" style="color:white;" for="typeEmailX">Email</label>
@@ -102,14 +102,18 @@
                                     @endif
 
                                     <button class="btn btn-outline-light btn-outline-change btn-lg px-5" type="submit">Ingresar</button>
+                                    
                                 </form>
-
+                                
                             </div>
 
                             <div>
-                                <p class="mb-0">No tiene cuenta? <a href="../public/registro" class="text-white fw-bold">Regístrese</a>
-
+                                <p class="mb-0">No tiene cuenta? <a href="{{route('registrocliente')}}" class="text-white fw-bold">Regístrese</a>
                             </div>
+                            <div>
+                                <a href="{{route('anonlogin')}}" class="btn btn-link mt-4">Continuar como anónimo</a>
+                            </div>
+                            
 
                             <!--div>
                                 <p class="mb-0">Don't have an account? <a href="#!" class="text-white-50 fw-bold">Sign Up</a>

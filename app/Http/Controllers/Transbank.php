@@ -6,9 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Session;
 
-class Transbank extends Controller {
+class Transbank extends Controller
+{
 
-    public function init() {
+    public function init()
+    {
 
         $data_compra = Session::get("datacompra");
         $compraid = uniqid();
@@ -33,7 +35,8 @@ class Transbank extends Controller {
         return view('pages.totransbank', compact('respuesta'));
     }
 
-    function respuestaTransbank($data, $method, $endpoint) {
+    function respuestaTransbank($data, $method, $endpoint)
+    {
         $curl = curl_init();
         //testing data & endpoint
         $TbkApiKeyId = '597055555532';
@@ -63,7 +66,8 @@ class Transbank extends Controller {
         return json_decode($response);
     }
 
-    public function returnFromTransbank(Request $request) {
+    public function returnFromTransbank(Request $request)
+    {
         $token_respuesta = $request->get('token_ws');
         $token = Session::get("token-tb");
         $method = 'PUT';
@@ -76,22 +80,38 @@ class Transbank extends Controller {
         $data = array();
         if ($response->status == "AUTHORIZED") {
             $data_compra = Session::get("compra");
-            foreach ($data_compra as $compra) {
-                $responsea = $this->consumeApi(array("token" => Session::get("token"), "id_instrumento" => $compra["id"], "cantidad" => $compra["cantidad"], "id_venta" => Session::get("id_venta")), 'agregar-producto-venta');
-            }
             $data["token"] = Session::get("token");
             $data["id_venta"] = Session::get("id_venta");
             $data["forma_pago"] = $response->payment_type_code == "VD" ? "Debito" : "Credito";
             $data["estado_pago"] = "Pagada";
             $data["estado_entrega"] = "En preparación";
-            $response = $this->consumeApi($data, 'modificar-estados-venta');
+            $response_entrega = $this->consumeApiobj('detalle-venta', array('token' => Session::get('token'), 'id_venta' => $data["id_venta"]));
+            $venta = $response_entrega->data->detalle_venta;
+            $response_estados_entregas = $this->consumeApiobj('estados-entrega', array('token' => Session::get('token')));
+            $estados = $response_estados_entregas->data;
+            $venta_data = $this->consumeApiobj('datos-venta', array('token' => Session::get('token'), 'id_venta' => $data["id_venta"]));
+            $data_venta = $venta_data->data->datos_venta;
+            if ($data_venta->estado_pago <> 'Pagada') {
+                foreach ($data_compra as $compra) {
+                    $responsea = $this->consumeApi(array("token" => Session::get("token"), "id_instrumento" => $compra["id"], "cantidad" => $compra["cantidad"], "id_venta" => Session::get("id_venta")), 'agregar-producto-venta');
+                }
+                $response = $this->consumeApi($data, 'modificar-estados-venta');
+            }
+            
         }
-        
-        return view('pages.returnfromtransbank');
-        
+
+        $response_entrega = $this->consumeApiobj('detalle-venta', array('token' => Session::get('token'), 'id_venta' => $data["id_venta"]));
+        $venta = $response_entrega->data->detalle_venta;
+        $response_estados_entregas = $this->consumeApiobj('estados-entrega', array('token' => Session::get('token')));
+        $estados = $response_estados_entregas->data;
+        $venta_data = $this->consumeApiobj('datos-venta', array('token' => Session::get('token'), 'id_venta' => $data["id_venta"]));
+
+        $data_venta = $venta_data->data->datos_venta;
+        return view('pages.returnfromtransbank', compact('data', 'data_venta', 'venta'));
     }
 
-    public function consumeApi($data, $endpoint) {
+    public function consumeApi($data, $endpoint)
+    {
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => env('API_CI_RUTA') . '/' . $endpoint,
@@ -112,7 +132,30 @@ class Transbank extends Controller {
         return $response;
     }
 
-    public function resumenCompra($mensaje = null) {
+    public function consumeApiobj($endpoint, $data): object
+    {
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env('API_CI_RUTA') . '/' . $endpoint,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => http_build_query($data),
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/x-www-form-urlencoded'
+            ),
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        return json_decode($response, false);
+    }
+
+    public function resumenCompra($mensaje = null)
+    {
         $compra = Session::get('compra');
         $catalogo = json_decode($this->consumeApi(array('token' => Session::get('token')), 'listar-instrumentos'));
         $catalogo = $catalogo->data;
@@ -134,7 +177,8 @@ class Transbank extends Controller {
         }
     }
 
-    public function catalogo($mensaje = null) {
+    public function catalogo($mensaje = null)
+    {
         //listar-instrumentos
         if (Session::get('token') == null) {
             return $this->redirNoLog();
@@ -149,4 +193,17 @@ class Transbank extends Controller {
         }
     }
 
+    public function printvoucher(Request $request, $id){
+        $response_entrega = $this->consumeApiobj('detalle-venta', array('token' => Session::get('token'), 'id_venta' => $id));
+        $venta = $response_entrega->data->detalle_venta;
+        $response_estados_entregas = $this->consumeApiobj('estados-entrega', array('token' => Session::get('token')));
+        $estados = $response_estados_entregas->data;
+        $venta_data = $this->consumeApiobj('datos-venta', array('token' => Session::get('token'), 'id_venta' => $id));
+        $data_venta = $venta_data->data->datos_venta;
+        $total = 0;
+        foreach($venta as $instrumento){
+            $total = $total + $instrumento->subtotal;
+        }
+        return view('ventas.printvoucher', compact('data_venta', 'venta', 'total'));
+    }
 }

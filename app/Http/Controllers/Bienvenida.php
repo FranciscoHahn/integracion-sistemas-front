@@ -13,6 +13,26 @@ class Bienvenida extends Controller {
         return View('pages.login', compact('mensaje_error'));
     }
 
+    public function anonlogin(){
+        if (Session::get("token") != null) {
+            return redirect("/catalogo");
+        }
+
+
+        Session::forget("compra");
+
+        $response = json_decode($this->consumeApi(array('email' => env('ANON_USER'), 'password' => env('ANON_PASS')), 'autenticar-cliente'), true);
+        if ($response['status'] == 'success') {
+            Session::put('token', $response['data']['token']);
+            Session::put("data_cliente", $response["data"]["data_cliente"]);
+            Session::put("perfil", $response["data"]["data_cliente"]["perfil_nombre"]);
+            return redirect("/catalogo");
+        } else {
+            $mensaje_error = $response["message"];
+            return View('pages.login', compact('mensaje_error'));
+        }
+    }
+
     public function login(Request $request) {
         if (Session::get("token") != null) {
             return redirect("/catalogo");
@@ -193,6 +213,10 @@ class Bienvenida extends Controller {
         }
 
         return view('pages.ventascliente', compact('ventas_cliente'));
+    }
+
+    public function iniciarcomoanon(){
+
     }
 
 }

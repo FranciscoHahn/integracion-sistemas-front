@@ -26,7 +26,7 @@
 </head>
 
 <body
-    style="background-image: linear-gradient(rgba(31, 30, 30, 0.9), rgba(54, 53, 53, 0.9)), url('https://static.vecteezy.com/system/resources/thumbnails/017/200/664/original/colorful-glowing-music-equalizer-animation-on-black-background-audio-spectrum-music-background-loop-animation-of-equalizer-multicolored-sound-equalizer-animation-nightclub-and-disco-background-free-video.jpg') !important;   background-position: center !important;background-repeat: no-repeat !important;background-size: cover !important;height: 100% !important;">
+    style="background-image: linear-gradient(rgba(20, 20, 20, 0.9), rgba(24, 24, 24, 0.9)), url('https://static.vecteezy.com/system/resources/thumbnails/017/200/664/original/colorful-glowing-music-equalizer-animation-on-black-background-audio-spectrum-music-background-loop-animation-of-equalizer-multicolored-sound-equalizer-animation-nightclub-and-disco-background-free-video.jpg') !important;   background-position: center !important;background-repeat: no-repeat !important;background-size: cover !important;height: 100% !important;">
     <style>
         .link-secondary :hover {
             color: cyan;
@@ -44,6 +44,7 @@
             color: cyan;
         }
     </style>
+    
     <nav class="navbar navbar-expand-lg fixed-top bg-dark opacity-75" style="">
         <!-- Container wrapper -->
         <div class="container-fluid">

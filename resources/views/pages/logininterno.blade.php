@@ -1,11 +1,10 @@
 
-@extends('layout.internolayout')
+@extends('layout.logininternolayout')
 @section('content')
 
 
-<div class="bg-image" 
-     style="background-image: url('https://wallpaper-mania.com/wp-content/uploads/2018/09/High_resolution_wallpaper_background_ID_77701297520.jpg');
-     height: 100vh">
+<div 
+     style="">
 
 
 
@@ -30,12 +29,12 @@
 
                                 <form method="POST" action="../public/interno-login">
                                     <div class="form-outline  mb-4">
-                                        <input type="email" id="typeEmailX" class="form-control form-control-lg" name="email"/>
+                                        <input type="email" id="typeEmailX" class="form-control form-control-lg text-white" name="email"/>
                                         <label class="form-label" style="color:white;" for="typeEmailX">Email</label>
                                     </div>
 
                                     <div class="form-outline  mb-4">
-                                        <input type="password" id="typePasswordX" class="form-control form-control-lg" name="password"/>
+                                        <input type="password" id="typePasswordX" class="form-control form-control-lg text-white" name="password"/>
                                         <label class="form-label" style="color:white" for="typePasswordX">Password</label>
                                     </div>
                                     @csrf
