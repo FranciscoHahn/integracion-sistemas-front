@@ -1,204 +1,153 @@
 <!doctype html>
 <html lang="es">
-    <head>
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- Font Awesome -->
-        <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-            rel="stylesheet"
-            />
-        <!-- Google Fonts -->
-        <link
-            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-            rel="stylesheet"
-            />
-        <!-- MDB -->
-        <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.css"
-            rel="stylesheet"
-            />
-        <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-        <style>
-            .topnav {
-                border-bottom: 3px solid #1db954;
-            }
 
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.css" rel="stylesheet" />
+    <link
+        href="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/fh-3.3.2/r-2.4.1/datatables.min.css"
+        rel="stylesheet" />
 
+    <title>Music Pro</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+    </style>
 
-            .topnav-interno {
-                border-bottom: 3px solid #91ffff;
-            }
+</head>
 
-            .btn-outline-success:hover {
-                background-color: #1db954 !important;
-                color: white !important;
-            }
+<body
+    style="background-image: linear-gradient(rgba(31, 30, 30, 0.9), rgba(54, 53, 53, 0.9)), url('https://static.vecteezy.com/system/resources/thumbnails/017/200/664/original/colorful-glowing-music-equalizer-animation-on-black-background-audio-spectrum-music-background-loop-animation-of-equalizer-multicolored-sound-equalizer-animation-nightclub-and-disco-background-free-video.jpg') !important;   background-position: center !important;background-repeat: no-repeat !important;background-size: cover !important;height: 100% !important;">
+    <style>
+        .link-secondary :hover {
+            color: cyan;
+        }
 
-            .btn-outline-success {
-                border-color: #1db954 !important;
-                color: #1db954 !important;
-            }
+        .link-out {
+            color: azure;
+        }
 
-            .btn-outline-primary:hover {
-                background-color: #00FFFF !important;
-                color: white !important;
-            }
+        .link-out :hover {
+            color: #FF3131;
+        }
 
-            .btn-outline-primary {
-                border-color: #00FFFF !important;
-                color: #00FFFF !important;
-            }
+        .link-secondary .active {
+            color: cyan;
+        }
+    </style>
+    <nav class="navbar navbar-expand-lg fixed-top bg-dark opacity-75" style="">
+        <!-- Container wrapper -->
+        <div class="container-fluid">
+            <!-- Toggle button -->
+            <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
+                data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
 
+            <!-- Collapsible wrapper -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <!-- Navbar brand -->
+                <a class="navbar-brand mt-2 mt-lg-0" style="color: #91ffff;" href="{{ route('interno-ini') }}">
+                    <i class="fas fa-guitar" style=""></i>&nbsp;&nbsp;Music Pro | <small
+                        class="text-white">&nbsp;Panel de {{ Session::get('perfil') }} </small>
+                </a>
 
-            .seleccionado {
-                color: white !important; 
-                background-color: #00FFFF !important;
-                border: 2px solid #00FFFF !important;
-                box-shadow: 5px 5px 10px 0px rgba(0,255,255,0.7) !important;
+                <!-- Left links -->
+            </div>
+            <!-- Collapsible wrapper -->
 
-            }
+            <!-- Right elements -->
+            <div class="d-flex align-items-center">
+                <a class="link-secondary active me-3" title="Administración de usuarios" href="{{ route('usuarios') }}">
+                    <i class="fa-sharp fa-solid fa-users" style="color: #white;"></i>
+                </a>
+                <a class="link-secondary me-3" title="Entregas" href="{{route('entregas')}}">
+                    <i class="fas fa-truck" style="color: #white;"></i>
+                </a>
+                <a class="link-secondary me-3" title="Productos" href="{{ route('admin-instrumentos') }}">
+                    <i class="fas fa-guitar" style="color: #white;"></i>
+                </a>
+                <a class="link-secondary me-3" title="Clientes" href="{{ route('admin-clientes') }}">
+                    <i class="fas fa-user" style="color: #white;"></i>
+                </a>
+                <a class="link-secondary me-3" title="Reportes" href="#">
+                    <i class="fas fa-list" style="color: #white;"></i>
+                </a>
+                <a class="link-out me-3" title="Salir del sistema" href="{{ route('logoutinterno') }}">
+                    <i class="fas fa-sign-out" style="color: #white;"></i>
+                </a>
 
-            .solo-neon-icon {
-                color: white; 
-                text-shadow: 0 0 3px rgba(0,255,255,0.7);
-            }
+            </div>
+            <!-- Right elements -->
+        </div>
+        <!-- Container wrapper -->
+    </nav>
+    <div class="container" style="padding-top: 58px;">
 
-
-            .neon-active {
-                color: #fff;
-                animation: glow-cyan 1s ease-in-out infinite alternate;
-            }
-            .neon-active-red {
-                color: #fff;
-                animation: glow-red 1s ease-in-out infinite alternate;
-            }
-
-
-            .neon {
-                color: #fff;
-                animation: glow-cyan 1s ease-in-out infinite alternate;
-            }
-
-            @keyframes glow-green {
-                from {
-                    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #1db954, 0 0 20px #1db954, 0 0 25px #1db954, 0 0 30px #1db954, 0 0 35px #1db954;
-                }
-                to {
-                    text-shadow: 0 0 10px #fff, 0 0 5px #fff, 0 0 10px #1db954, 0 0 20px #1db954, 0 0 30px #1db954, 0 0 40px #1db954, 0 0 50px #1db954;
-                }
-            }
-
-            @keyframes glow-red {
-                from {
-                    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px red, 0 0 20px red, 0 0 25px red, 0 0 30px red, 0 0 35px red;
-                }
-                to {
-                    text-shadow: 0 0 10px #fff, 0 0 5px #fff, 0 0 10px red, 0 0 20px red, 0 0 30px red, 0 0 40px red, 0 0 50px red;
-                }
-            }
-
-            @keyframes glow-cyan {
-                from {
-                    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #00FFFF, 0 0 20px #00FFFF, 0 0 25px #00FFFF, 0 0 30px #00FFFF, 0 0 35px #00FFFF;
-                }
-                to {
-                    text-shadow: 0 0 10px #fff, 0 0 5px #fff, 0 0 10px #00FFFF, 0 0 20px #00FFFF, 0 0 30px #00FFFF, 0 0 40px #00FFFF, 0 0 50px #00FFFF;
-                }
-            }
-
-
-            .solo-neon-icon-red:hover {
-                color: #fff;
-                animation: glow-red 1s ease-in-out infinite alternate;
-            }
-
-
-            .solo-neon-icon-blue:hover {
-                color: #fff;
-                animation: glow-green 1s ease-in-out infinite alternate;
-            }
-
-            .solo-neon-icon-cyan:hover {
-                color: #fff;
-                animation: glow-cyan 1s ease-in-out infinite alternate;
-            }
-
-
-            .form-outline .form-control:focus~.form-notch .form-notch-leading {
-                border-top: .125rem solid #00FFFF;
-                border-bottom: .125rem solid #00FFFF;
-                border-left: .125rem solid #00FFFF;
-                box-shadow:-1px 0px 0px 0px #00FFFF, 0px 1px 0px 0px #00FFFF, 0px -1px 0px 0px #00FFFF;
-            }
-            .form-outline .form-control:focus~.form-notch .form-notch-middle {
-                border-bottom: .125rem solid;
-                border-color: #00FFFF;
-                border-top:none;
-                box-shadow: 0 1px 0 0 #00FFFF;
-            }
-
-            .form-outline .form-control:focus~.form-notch .form-notch-trailing {
-                border-color: currentcolor currentcolor currentcolor #00FFFF;
-                border-bottom: .125rem solid #00FFFF;
-                border-right: .125rem solid #00FFFF;
-                border-top: .125rem solid #00FFFF;
-                box-shadow: 1px 0 0 0 #00FFFF, 0 -1px 0 0 #00FFFF, 0 1px 0 0 #00FFFF;
-            }
-
-
-
-            .form-outline .form-control:focus~.form-label {
-                color: #00FFFF;
-            }
-
-            .form-outline .form-control:hover{
-                box-shadow:-1px 0px 0px 0px #00FFFF, 0px 1px 0px 0px #00FFFF, 0px -1px 0px 0px #00FFFF;
-            }
-
-
-
-
-            .form-outline .form-control:hover~.form-label {
-                color: #00FFFF;
-            }
-
-
-
-            .form-outline .form-control.active~.form-notch .form-notch-middle, .form-outline .form-control:focus~.form-notch .form-notch-middle {
-                border-top: 1px transparent;
-            }
-
-            input, select, textarea{
-                color: white !important;
-            }
-
-            .btn-outline-change:hover {
-                background-color: white !important;
-                color: black !important;
-            }
-
-
-
-        </style>
-
-        <title>Music Pro</title>
-    </head>
-    <body style="background-color: #121212;">
         @yield('content')
 
-        <!-- Optional JavaScript; choose one of the two! -->
+    </div>
+    <!-- Optional JavaScript; choose one of the two! -->
 
-        <!-- Option 1: Bootstrap Bundle with Popper -->
-        <!-- MDB -->
-        <script
-            type="text/javascript"
-            src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.js"
-        ></script>
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <!-- MDB -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.js"></script>
 
-    </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script
+        src="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/fh-3.3.2/r-2.4.1/datatables.min.js">
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('table').DataTable({
+                language: {
+                    "sProcessing": "<small>Procesando...</small>",
+                    "sLengthMenu": "<small>Mostrar _MENU_ registros</small>",
+                    "sZeroRecords": "<small>No se encontraron resultados</small>",
+                    "sEmptyTable": "<small>Ningún dato disponible en esta tabla</small>",
+                    "sInfo": "<small>Registros del _START_ al _END_ de un total de _TOTAL_</small>",
+                    "sInfoEmpty": "<small>registros del 0 al 0 de un total de 0 registros</small>",
+                    "sInfoFiltered": "<small>(filtrado de un total de _MAX_ registros)</small>",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "<small>Cargando...</small>",
+                    "oPaginate": {
+                        "sFirst": "<small>Primero</small>",
+                        "sLast": "<small>Último</small>",
+                        "sNext": "&rarr;",
+                        "sPrevious": "&larr;"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": <small>Activar para ordenar la columna de manera ascendente</small>",
+                        "sSortDescending": ": <small>Activar para ordenar la columna de manera descendente</small>"
+                    }
+                },
+                dom: 'Bfrtip',
+                buttons: [
+                    'copyHtml5',
+                    'excelHtml5',
+                    'pdfHtml5'
+                ]
+            });
+        });
+    </script>
+
+</body>
 
 </html>
-

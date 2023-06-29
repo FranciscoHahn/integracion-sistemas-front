@@ -58,14 +58,33 @@ Route::get('logoutinterno', function(){
     Session::regenerate();
     $mensaje_registro = "Sesión finalizada";
     return view('pages.logininterno', compact('mensaje_registro'));
-});
+})->name('logoutinterno');
 
-Route::get('interno-ini', 'App\Http\Controllers\Interno@welcomeinterno');
+Route::get('interno-ini', 'App\Http\Controllers\Interno@welcomeinterno')->name('interno-ini');
 Route::get('admin-users', 'App\Http\Controllers\Interno@adminUsuarios')->name('usuarios');
-Route::get('admin-instrumentos', 'App\Http\Controllers\Interno@adminProductos');
-Route::get('admin-clientes', 'App\Http\Controllers\Interno@adminClientes');
+Route::get('admin-instrumentos', 'App\Http\Controllers\Interno@adminProductos')->name('admin-instrumentos');
+Route::get('admin-clientes', 'App\Http\Controllers\Interno@adminClientes')->name('admin-clientes');
 //crearusuario
 Route::get('registrarusuario', 'App\Http\Controllers\Usuarios@registrarusuario')->name('registrarusuario');
 //registrandousuario
 Route::post('registrandousuario', 'App\Http\Controllers\Usuarios@registrandousuario')->name('registrandousuario');
+Route::get('modificarusuario/{id}', 'App\Http\Controllers\Usuarios@modificarusuario')->name('modificarusuario');
+Route::post('modificandousuario', 'App\Http\Controllers\Usuarios@modificandousuario')->name('modificandousuario');
+Route::get('activarusuario/{id}', 'App\Http\Controllers\Usuarios@activarusuario')->name('activarusuario');
+Route::get('desactivarusuario/{id}', 'App\Http\Controllers\Usuarios@desactivarusuario')->name('desactivarusuario');
+Route::get('crearproducto', 'App\Http\Controllers\Productos@crearproducto')->name('crearproducto');
+Route::post('creandoproducto','App\Http\Controllers\Productos@creandoproducto')->name('creandoproducto');
+
+Route::get('modificarproducto/{id}','App\Http\Controllers\Productos@modificarproducto')->name('modificarproducto');
+Route::get('activarproducto/{id}','App\Http\Controllers\Productos@activarproducto')->name('activarproducto');
+Route::get('desactivarproducto/{id}','App\Http\Controllers\Productos@desactivarproducto')->name('desactivarproducto');
+Route::post('modificandoproducto', 'App\Http\Controllers\Productos@modificandoproducto')->name('modificandoproducto');
+Route::get('entregas', 'App\Http\Controllers\Entregas@entregas')->name('entregas');
+Route::get('detalleventas/{id}', 'App\Http\Controllers\Entregas@detalleventas')->name('detalleventas');
+Route::post('cambiarestadoentrega', 'App\Http\Controllers\Entregas@cambiarestadoentrega')->name('cambiarestadoentrega'); 
+
+
+
+
+
 
