@@ -24,7 +24,7 @@ class Transbank extends Controller {
             "buy_order" => $id_venta . "oc" . $compraid,
             "session_id" => $id_venta . "sid" . $compraid,
             "amount" => $data_compra["total"],
-            "return_url" => env('RETURN_FROM_TRANSBANK')
+            "return_url" => route('transbank-retorno')
         ];
 
         $respuesta = $this->respuestaTransbank(json_encode($data), "POST", "/rswebpaytransaction/api/webpay/v1.2/transactions");

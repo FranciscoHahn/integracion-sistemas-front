@@ -37,8 +37,8 @@ Route::get('resumen-compra', 'App\Http\Controllers\Bienvenida@resumenCompra');
 Route::post('comprar-process', 'App\Http\Controllers\Bienvenida@comprarProcess');
 
 
-Route::get('transbank-init', 'App\Http\Controllers\Transbank@init');
-Route::get('transbank-retorno', 'App\Http\Controllers\Transbank@returnFromTransbank');
+Route::get('transbank-init', 'App\Http\Controllers\Transbank@init')->name('transbank-init');
+Route::get('transbank-retorno', 'App\Http\Controllers\Transbank@returnFromTransbank')->name('transbank-retorno');
 Route::get('mis-compras', 'App\Http\Controllers\Bienvenida@misCompras');
 Route::get('logout', function(){
     Session::flush();
