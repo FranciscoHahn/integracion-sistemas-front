@@ -44,7 +44,7 @@
             color: cyan;
         }
     </style>
-    
+
     <nav class="navbar navbar-expand-lg fixed-top bg-dark opacity-75" style="">
         <!-- Container wrapper -->
         <div class="container-fluid">
@@ -69,21 +69,28 @@
 
             <!-- Right elements -->
             <div class="d-flex align-items-center">
-                <a class="link-secondary active me-3" title="Administración de usuarios" href="{{ route('usuarios') }}">
-                    <i class="fa-sharp fa-solid fa-users" style="color: #white;"></i>
-                </a>
-                <a class="link-secondary me-3" title="Entregas" href="{{route('entregas')}}">
+                @if (Session::get('perfil') == 'Administrador')
+                    <a class="link-secondary active me-3" title="Administración de usuarios"
+                        href="{{ route('usuarios') }}">
+                        <i class="fa-sharp fa-solid fa-users" style="color: #white;"></i>
+                    </a>
+                @endif
+                <a class="link-secondary me-3" title="Entregas" href="{{ route('entregas') }}">
                     <i class="fas fa-truck" style="color: #white;"></i>
                 </a>
                 <a class="link-secondary me-3" title="Productos" href="{{ route('admin-instrumentos') }}">
                     <i class="fas fa-guitar" style="color: #white;"></i>
                 </a>
-                <a class="link-secondary me-3" title="Clientes" href="{{ route('admin-clientes') }}">
-                    <i class="fas fa-user" style="color: #white;"></i>
-                </a>
-                <a class="link-secondary me-3" title="Reportes" href="#">
-                    <i class="fas fa-list" style="color: #white;"></i>
-                </a>
+                @if (Session::get('perfil') == 'Administrador')
+                    <a class="link-secondary me-3" title="Clientes" href="{{ route('admin-clientes') }}">
+                        <i class="fas fa-user" style="color: #white;"></i>
+                    </a>
+                @endif
+                @if (Session::get('perfil') == 'Administrador')
+                    <a class="link-secondary me-3" title="Reportes" href="{{route('reporteventas')}}">
+                        <i class="fas fa-list" style="color: #white;"></i>
+                    </a>
+                @endif
                 <a class="link-out me-3" title="Salir del sistema" href="{{ route('logoutinterno') }}">
                     <i class="fas fa-sign-out" style="color: #white;"></i>
                 </a>

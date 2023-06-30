@@ -26,17 +26,17 @@ class Entregas extends Controller
         $response_estados_entregas = $this->consumeApi('estados-entrega', array('token' => Session::get('token')));
         $estados = $response_estados_entregas->data;
         $venta_data = $this->consumeApi('datos-venta', array('token' => Session::get('token'), 'id_venta' => $id));
-        
+
         $data_venta = $venta_data->data->datos_venta;
         return view('ventas.detalleventa', compact('venta', 'estados', 'data_venta'));
     }
 
-    public function cambiarestadoentrega(Request $request){
+    public function cambiarestadoentrega(Request $request)
+    {
         $send = $request->post();
         $send['token'] = Session::get('token');
-        $response_venta = $this->consumeApi('modificar-estados-venta', $send );
+        $response_venta = $this->consumeApi('modificar-estados-venta', $send);
         return redirect()->route('detalleventas', ['id' => $request->post('id_venta')]);
-
     }
 
 
@@ -61,5 +61,16 @@ class Entregas extends Controller
         $response = curl_exec($curl);
         curl_close($curl);
         return json_decode($response, false);
+    }
+
+    public function reporteventas()
+    {
+        $response_entregas = $this->consumeApi('listar-ventas', array('token' => Session::get('token')));
+  
+        $ventas = $response_entregas->data;
+        $response_estados_entregas = $this->consumeApi('estados-entrega', array('token' => Session::get('token')));
+        $estados = $response_estados_entregas->data;
+
+        return view('ventas.reporteventas', compact('ventas', 'estados'));
     }
 }

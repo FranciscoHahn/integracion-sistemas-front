@@ -15,19 +15,71 @@
                             <button type="submit" class="btn btn-outline-primary">Confirmar cambio de estado</button>
                             <select class="form-select bg-dark text-white" name="estado_entrega"
                                 aria-label="Default select example">
-                                @foreach ($estados as $estado)
-                                    @if ($data_venta->forma_retiro == 'A domicilio' && !in_array($estado, ['Preparada para retiro']))
-                                        <option value="{{ $estado }}"
-                                            {{ $estado == $data_venta->estado_entrega ? 'selected' : '' }}>
-                                            {{ $estado }}
-                                        </option>
-                                    @elseif($data_venta->forma_retiro != 'A domicilio' && !in_array($estado, ['Preparada para despacho', 'Despachando']))
-                                        <option value="{{ $estado }}"
-                                            {{ $estado == $data_venta->estado_entrega ? 'selected' : '' }}>
-                                            {{ $estado }}
-                                        </option>
-                                    @endif
-                                @endforeach
+                                @if (Session::get('perfil') == 'Administrador')
+                                    @foreach ($estados as $estado)
+                                        @if ($data_venta->forma_retiro == 'A domicilio' && !in_array($estado, ['Preparada para retiro']))
+                                            <option value="{{ $estado }}"
+                                                {{ $estado == $data_venta->estado_entrega ? 'selected' : '' }}>
+                                                {{ $estado }}
+                                            </option>
+                                        @elseif($data_venta->forma_retiro != 'A domicilio' && !in_array($estado, ['Preparada para despacho', 'Despachando']))
+                                            <option value="{{ $estado }}"
+                                                {{ $estado == $data_venta->estado_entrega ? 'selected' : '' }}>
+                                                {{ $estado }}
+                                            </option>
+                                        @endif
+                                    @endforeach
+                                @elseif(Session::get('perfil') == 'Bodeguero')
+                                    @foreach ($estados as $estado)
+                                        @if (in_array($estado, ['Preparada para retiro', 'Preparada para despacho', $data_venta->estado_entrega]))
+                                            @if ($data_venta->forma_retiro == 'A domicilio' && !in_array($estado, ['Preparada para retiro']))
+                                                <option value="{{ $estado }}"
+                                                    {{ $estado == $data_venta->estado_entrega ? 'selected' : '' }}>
+                                                    {{ $estado }}
+                                                </option>
+                                            @elseif($data_venta->forma_retiro != 'A domicilio' && !in_array($estado, ['Preparada para despacho', 'Despachando']))
+                                                <option value="{{ $estado }}"
+                                                    {{ $estado == $data_venta->estado_entrega ? 'selected' : '' }}>
+                                                    {{ $estado }}
+                                                </option>
+                                            @endif
+                                        @endif
+                                    @endforeach
+                                @elseif(Session::get('perfil') == 'Vendedor')
+                                    @foreach ($estados as $estado)
+                                        @if (in_array($estado, ['Preparada para retiro', 'Preparada para despacho', 'Cancelada', $data_venta->estado_entrega]))
+                                            @if ($data_venta->forma_retiro == 'A domicilio' && !in_array($estado, ['Preparada para retiro']))
+                                                <option value="{{ $estado }}"
+                                                    {{ $estado == $data_venta->estado_entrega ? 'selected' : '' }}>
+                                                    {{ $estado }}
+                                                </option>
+                                            @elseif($data_venta->forma_retiro != 'A domicilio' && !in_array($estado, ['Preparada para despacho', 'Despachando']))
+                                                <option value="{{ $estado }}"
+                                                    {{ $estado == $data_venta->estado_entrega ? 'selected' : '' }}>
+                                                    {{ $estado }}
+                                                </option>
+                                            @endif
+                                        @endif
+                                    @endforeach
+                                @elseif(Session::get('perfil') == 'Contador')
+                                    @foreach ($estados as $estado)
+                                        @if (in_array($estado, ['Preparada para retiro', 'Preparada para despacho', 'Entregada', $data_venta->estado_entrega]))
+                                            @if ($data_venta->forma_retiro == 'A domicilio' && !in_array($estado, ['Preparada para retiro']))
+                                                <option value="{{ $estado }}"
+                                                    {{ $estado == $data_venta->estado_entrega ? 'selected' : '' }}>
+                                                    {{ $estado }}
+                                                </option>
+                                            @elseif($data_venta->forma_retiro != 'A domicilio' && !in_array($estado, ['Preparada para despacho', 'Despachando']))
+                                                <option value="{{ $estado }}"
+                                                    {{ $estado == $data_venta->estado_entrega ? 'selected' : '' }}>
+                                                    {{ $estado }}
+                                                </option>
+                                            @endif
+                                        @endif
+                                    @endforeach
+                                @endif
+
+
                             </select>
                         </div>
                     </form>

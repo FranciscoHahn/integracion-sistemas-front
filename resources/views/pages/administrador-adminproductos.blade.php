@@ -2,8 +2,10 @@
 @section('content')
     <div class="">
         <div class="d-block p-2">
-            <h3 class="text-white">Administración de produtos</h3>
-            <a type="button" class="btn btn-outline-primary" href="{{route('crearproducto')}}">Crear nuevo producto</a>
+            <h3 class="text-white">Administración de productos</h3>
+            @if (Session::get('perfil') == 'Administrador') 
+                <a type="button" class="btn btn-outline-primary" href="{{ route('crearproducto') }}">Crear nuevo producto</a>
+            @endif
         </div>
         <table class="table table-bordered table-sm" style="width: 100%;">
             <thead class="text-white">
@@ -67,11 +69,19 @@
 
                         <td>
                             <div class="btn-group" role="group" aria-label="Vertical button group">
-                                <a type="button" class="btn btn-outline-success" href="{{route('modificarproducto', ['id' => $instrumento->id])}}">Modificar</a>
-                                @if($instrumento->activo)
-                                <a type="button" class="btn btn-outline-success" href="{{route('desactivarproducto', ['id' => $instrumento->id])}}">Desactivar</a>
-                                @else 
-                                <a type="button" class="btn btn-outline-success" href="{{route('activarproducto', ['id' => $instrumento->id])}}">Activar</a>
+                                @if (Session::get('perfil') == 'Administrador')
+                                    <a type="button" class="btn btn-outline-success"
+                                        href="{{ route('modificarproducto', ['id' => $instrumento->id]) }}">Modificar</a>
+
+                                    @if ($instrumento->activo)
+                                        <a type="button" class="btn btn-outline-success"
+                                            href="{{ route('desactivarproducto', ['id' => $instrumento->id]) }}">Desactivar</a>
+                                    @else
+                                        <a type="button" class="btn btn-outline-success"
+                                            href="{{ route('activarproducto', ['id' => $instrumento->id]) }}">Activar</a>
+                                    @endif
+                                @else
+                                    <span class="badge badge-primary text-muted"> Sin acciones disponibles</span>
                                 @endif
                             </div>
                         </td>

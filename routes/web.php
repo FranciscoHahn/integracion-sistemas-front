@@ -84,6 +84,10 @@ Route::get('detalleventas/{id}', 'App\Http\Controllers\Entregas@detalleventas')-
 Route::post('cambiarestadoentrega', 'App\Http\Controllers\Entregas@cambiarestadoentrega')->name('cambiarestadoentrega'); 
 Route::get('printvoucher/{id}', 'App\Http\Controllers\Transbank@printvoucher')->name('printvoucher');
 
+//reporteventas
+//reporteventas
+Route::get('reporteventas', 'App\Http\Controllers\Entregas@reporteventas')->name('reporteventas');
+
 
 
 
