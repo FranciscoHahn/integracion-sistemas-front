@@ -72,44 +72,48 @@
     <section class="py-5">
         <div class="container px-4 px-lg-5 mt-5">
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+
                 @foreach ($data as $instrumento)
-                    <div class="col mb-5">
+                    @if ($instrumento['activo'] && $instrumento['stock'] >= 1)
+                        <div class="col mb-5">
 
-                        <div class="card h-100"
-                            style="background-color: #212121; color: #b3b3b3; border: 2px solid #b3b3b3;">
-                            <!-- Product image-->
-                            <img class="card-img-top" src="{{ $instrumento['imagen'] }}" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">{{ $instrumento['nombre'] }}</h5>
-                                    <h6 class="fw-bolder">{{ $instrumento['nombre_categoria'] }}</h6>
-                                    <!-- Product price-->
-                                    {{ "$ " . number_format($instrumento['precio'], 0, ',', '.') }}
+                            <div class="card h-100"
+                                style="background-color: #212121; color: #b3b3b3; border: 2px solid #b3b3b3;">
+                                <!-- Product image-->
+                                <img class="card-img-top" src="{{ $instrumento['imagen'] }}" alt="..." />
+                                <!-- Product details-->
+                                <div class="card-body p-4">
+                                    <div class="text-center">
+                                        <!-- Product name-->
+                                        <h5 class="fw-bolder">{{ $instrumento['nombre'] }}</h5>
+                                        <h6 class="fw-bolder">{{ $instrumento['nombre_categoria'] }}</h6>
+                                        <!-- Product price-->
+                                        {{ "$ " . number_format($instrumento['precio'], 0, ',', '.') }}
+                                    </div>
+
+                                </div>
+                                <!-- Product actions-->
+                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent text-center">
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class='btn  btn-outline-success addalcarrito'
+                                            data-id="{{ $instrumento['id'] }}">
+                                            <i class="fa-solid fa-plus"></i>
+                                        </button>
+                                        <button type="button" class='btn btn-success cantidad'
+                                            data-max="{{ $instrumento['stock'] }}">
+                                            0
+                                        </button>
+                                        <button type="button" class='btn  btn-outline-success removecarrito'
+                                            data-id="{{ $instrumento['id'] }}">
+                                            <i class="fa-solid fa-minus"></i>
+                                        </button>
+                                    </div>
                                 </div>
 
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent text-center">
-                                <div class="btn-group" role="group">
-                                    <button type="button" class='btn  btn-outline-success addalcarrito'
-                                        data-id="{{ $instrumento['id'] }}">
-                                        <i class="fa-solid fa-plus"></i>
-                                    </button>
-                                    <button type="button" class='btn btn-success cantidad' data-max="{{$instrumento["stock"]}}">
-                                        0
-                                    </button>
-                                    <button type="button" class='btn  btn-outline-success removecarrito'
-                                        data-id="{{ $instrumento['id'] }}">
-                                        <i class="fa-solid fa-minus"></i>
-                                    </button>
-                                </div>
                             </div>
 
                         </div>
-
-                    </div>
+                    @endif
                 @endforeach
             </div>
         </div>
