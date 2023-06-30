@@ -36,41 +36,42 @@
             </thead>
             <tbody class="text-white">
                 @foreach ($usuarios as $usuario)
-                @if($usuario->id <> Session::get('data_usuario')->id)
-                    <tr>
-                        <td>
-                            {{ $usuario->id }}
-                        </td>
-                        <td>
-                            {{ $usuario->nombres }}
-                        </td>
-                        <td>
-                            {{ $usuario->apellidos }}
-                        </td>
-                        <td>
-                            {{ $usuario->email }}
-                        </td>
-                        <td>
-                            {{ $usuario->direccion }}
-                        </td>
-                        <td>
-                            {{ $usuario->perfil_nombre }}
-                        </td>
-                        <td>
-                            {{$usuario->rut}}
-                        </td>
-                        <td>
-                            <div class="btn-group" role="group" aria-label="Vertical button group">
-                                <a type="button" class="btn btn-outline-success" href="{{route('modificarusuario', ['id' => $usuario->id])}}">Modificar</a>
-                                @if ($usuario->activo)
-                                    <a type="button" class="btn btn-outline-success" href="{{route('desactivarusuario', ['id' => $usuario->id])}}">Desactivar</a>
-                                @else
-                                    <a type="button" class="btn btn-outline-success" href="{{route('activarusuario', ['id' => $usuario->id])}}">Activar</a>
-                                @endif
-                            </div>
-                        </td>
-
-                    </tr>
+                    @if ($usuario->id != Session::get('data_usuario')->id)
+                        <tr>
+                            <td>
+                                {{ $usuario->id }}
+                            </td>
+                            <td>
+                                {{ $usuario->nombres }}
+                            </td>
+                            <td>
+                                {{ $usuario->apellidos }}
+                            </td>
+                            <td>
+                                {{ $usuario->email }}
+                            </td>
+                            <td>
+                                {{ $usuario->direccion }}
+                            </td>
+                            <td>
+                                {{ $usuario->perfil_nombre }}
+                            </td>
+                            <td>
+                                {{ $usuario->rut }}
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Vertical button group">
+                                    <a type="button" class="btn btn-outline-success"
+                                        href="{{ route('modificarusuario', ['id' => $usuario->id]) }}">Modificar</a>
+                                    @if ($usuario->activo)
+                                        <a type="button" class="btn btn-outline-success"
+                                            href="{{ route('desactivarusuario', ['id' => $usuario->id]) }}">Desactivar</a>
+                                    @else
+                                        <a type="button" class="btn btn-outline-success"
+                                            href="{{ route('activarusuario', ['id' => $usuario->id]) }}">Activar</a>
+                                    @endif
+                            </td>
+                        </tr>
                     @endif
                 @endforeach
             </tbody>
