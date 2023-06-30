@@ -85,19 +85,19 @@ class Transbank extends Controller
             $data["forma_pago"] = $response->payment_type_code == "VD" ? "Debito" : "Credito";
             $data["estado_pago"] = "Pagada";
             $data["estado_entrega"] = "En preparación";
+            foreach ($data_compra as $compra) {
+                $responsea = $this->consumeApi(array("token" => Session::get("token"), "id_instrumento" => $compra["id"], "cantidad" => $compra["cantidad"], "id_venta" => Session::get("id_venta")), 'agregar-producto-venta');
+            }
             $response_entrega = $this->consumeApiobj('detalle-venta', array('token' => Session::get('token'), 'id_venta' => $data["id_venta"]));
             $venta = $response_entrega->data->detalle_venta;
+
             $response_estados_entregas = $this->consumeApiobj('estados-entrega', array('token' => Session::get('token')));
+
             $estados = $response_estados_entregas->data;
             $venta_data = $this->consumeApiobj('datos-venta', array('token' => Session::get('token'), 'id_venta' => $data["id_venta"]));
             $data_venta = $venta_data->data->datos_venta;
-            if ($data_venta->estado_pago <> 'Pagada') {
-                foreach ($data_compra as $compra) {
-                    $responsea = $this->consumeApi(array("token" => Session::get("token"), "id_instrumento" => $compra["id"], "cantidad" => $compra["cantidad"], "id_venta" => Session::get("id_venta")), 'agregar-producto-venta');
-                }
-                $response = $this->consumeApi($data, 'modificar-estados-venta');
-            }
-            
+
+            $response = $this->consumeApi($data, 'modificar-estados-venta');
         }
 
         $response_entrega = $this->consumeApiobj('detalle-venta', array('token' => Session::get('token'), 'id_venta' => $data["id_venta"]));
@@ -193,7 +193,8 @@ class Transbank extends Controller
         }
     }
 
-    public function printvoucher(Request $request, $id){
+    public function printvoucher(Request $request, $id)
+    {
         $response_entrega = $this->consumeApiobj('detalle-venta', array('token' => Session::get('token'), 'id_venta' => $id));
         $venta = $response_entrega->data->detalle_venta;
         $response_estados_entregas = $this->consumeApiobj('estados-entrega', array('token' => Session::get('token')));
@@ -201,7 +202,7 @@ class Transbank extends Controller
         $venta_data = $this->consumeApiobj('datos-venta', array('token' => Session::get('token'), 'id_venta' => $id));
         $data_venta = $venta_data->data->datos_venta;
         $total = 0;
-        foreach($venta as $instrumento){
+        foreach ($venta as $instrumento) {
             $total = $total + $instrumento->subtotal;
         }
         return view('ventas.printvoucher', compact('data_venta', 'venta', 'total'));
